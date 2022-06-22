@@ -2,6 +2,7 @@ package view;
 
 import controller.TheaterController;
 import model.TheaterDTO;
+import model.UserDTO;
 import util.ScannerUtil;
 
 import java.util.ArrayList;
@@ -10,10 +11,20 @@ import java.util.Scanner;
 public class TheaterView {
     private Scanner scanner;
     private TheaterController theaterController;
+    private UserDTO login;
+    private MovieView movieView;
 
     public TheaterView(Scanner scanner) {
         this.scanner = scanner;
         theaterController = new TheaterController();
+    }
+
+    public void setMovieView(MovieView movieView) {
+        this.movieView = movieView;
+    }
+
+    public void setLogin(UserDTO login) {
+        this.login = login;
     }
 
     /*일반 극장 메뉴*/
@@ -34,6 +45,11 @@ public class TheaterView {
     private void printOne(int id) {
         TheaterDTO t = theaterController.selectOne(id);
         System.out.printf("%d. 극장: %s 극장 장소: %s 극장 전화번호 %s\n", t.getId(), t.getTheaterName(), t.getTheaterLocation(), t.getTheaterNumber());
+        int movieListModify = ScannerUtil.nextInt(scanner, "1.해당극장 상영영화 추가 2.상영영화 삭제 3.뒤로가기");
+        if (movieListModify == 1) {
+            movieView.showMovieList();
+        } else if (movieListModify == 2) {
+        }
     }
 
     public void showTheaterList() {
@@ -53,7 +69,6 @@ public class TheaterView {
     /*관리자 극장 뷰*/
     public void adminTheaterInfo() {
         showTheaterList();
-
         int adminChoice = ScannerUtil.nextInt(scanner, "1.현재 등록된 극장보기 2.극장 등록 3.극장 수정 4.극장 삭제 5.뒤로가기");
         if (adminChoice == 1) {
             showTheaterList();

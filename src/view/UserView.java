@@ -13,10 +13,15 @@ public class UserView {
     private UserController userController;
     private MovieView movieView;
     private TheaterView theaterView;
+    private GradeView gradeView;
 
     public UserView(Scanner scanner) {
         this.scanner = scanner;
         userController = new UserController();
+    }
+
+    public void setGradeView(GradeView gradeView) {
+        this.gradeView = gradeView;
     }
 
     public void setMovieView(MovieView movieView) {
@@ -39,6 +44,9 @@ public class UserView {
                 }
                 /* 일반인 쇼메뉴 */
                 if (login != null) {
+                    theaterView.setLogin(login);
+                    movieView.setLogin(login);
+                    gradeView.setLogin(login);
                     showMenu();
                 }
             } else if (userChoice == 2) {
@@ -142,7 +150,7 @@ public class UserView {
             System.out.println("경고: 마스터 아이디입니다 해당회원은 수정불가");
         } else if (adminChoice != 0) {
             UserDTO u = userController.selectOne(adminChoice);
-            int userGrade = ScannerUtil.nextInt(scanner, "수정할 회원단계 1 => 관리자 2 => 전문가 3 => 일반인");
+            int userGrade = ScannerUtil.nextInt(scanner, "수정할 회원단계 1 => 관리자 2 => 전문가 3 => 일반인", 1, 3);
             u.setUserGrade(userGrade);
             System.out.println("회원등급 수정이 완료되었습니다.");
             userController.update(u);

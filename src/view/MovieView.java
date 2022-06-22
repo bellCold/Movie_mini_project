@@ -1,7 +1,9 @@
 package view;
 
+import controller.GradeController;
 import controller.MovieController;
 import model.MovieDTO;
+import model.UserDTO;
 import util.ScannerUtil;
 
 import java.util.ArrayList;
@@ -11,12 +13,20 @@ public class MovieView {
     private Scanner scanner;
     private MovieController movieController;
     private GradeView gradeView;
+    private UserDTO login;
+
+    public void setLogin(UserDTO login) {
+        this.login = login;
+    }
 
     public MovieView(Scanner scanner) {
         this.scanner = scanner;
         movieController = new MovieController();
     }
 
+    public void setGradeView(GradeView gradeView) {
+        this.gradeView = gradeView;
+    }
 
     /* 일반인 영화관련 출력*/
     /*영화 전체 출력*/
@@ -44,7 +54,12 @@ public class MovieView {
         System.out.printf("영화 등급: %s \n", Grade);
         System.out.printf("영화 줄거리: %s \n", m.getMovieSummary());
         /* 해당 영화 평점보기 */
-        gradeView.printGrade(userChoice);
+        int choice = ScannerUtil.nextInt(scanner, "1.해당영화 평점보기 2.해당영화 평점주기 3.뒤로가기");
+        if (choice == 1) {
+            gradeView.printGrade();
+        } else if (choice == 2) {
+            gradeView.gradeRegister();
+        }
     }
 
     /* 관리자 영화관련 출력*/
@@ -65,7 +80,7 @@ public class MovieView {
     private void movieRegister() {
         MovieDTO m = new MovieDTO();
         m.setMovieName(ScannerUtil.nextLine(scanner, "영화제목을 입력해주세요."));
-        m.setMovieGrade(ScannerUtil.nextInt(scanner, "영화등급을 설정해주세요. 1.<전체관람> 2.<15세이상> 3.<청불>"));
+        m.setMovieGrade(ScannerUtil.nextInt(scanner, "영화등급을 설정해주세요. 1.<전체관람> 2.<15세이상> 3.<청불>",1,3));
         m.setMovieSummary(ScannerUtil.nextLine(scanner, "영화 줄거리를 입력해주세요."));
         movieController.register(m);
     }
@@ -93,7 +108,7 @@ public class MovieView {
         if (adminChoice != 0) {
             MovieDTO m = movieController.selectOne(adminChoice);
             m.setMovieName(ScannerUtil.nextLine(scanner, "새로운 영화제목을 입력해주세요."));
-            m.setMovieGrade(ScannerUtil.nextInt(scanner, "새로운 영화등급을 설정해주세요. 1.<전체관람> 2.<15세이상> 3.<청불>"));
+            m.setMovieGrade(ScannerUtil.nextInt(scanner, "새로운 영화등급을 설정해주세요. 1.<전체관람> 2.<15세이상> 3.<청불>",1,3));
             m.setMovieSummary(ScannerUtil.nextLine(scanner, "새로운 영화 줄거리를 입력해주세요."));
             System.out.println("수정이 완료되었습니다!");
             movieController.update(m);

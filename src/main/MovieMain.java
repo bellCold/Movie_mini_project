@@ -1,5 +1,6 @@
 package main;
 
+import view.GradeView;
 import view.MovieView;
 import view.TheaterView;
 import view.UserView;
@@ -12,7 +13,11 @@ public class MovieMain {
         UserView userView = new UserView(scanner);
         MovieView movieView = new MovieView(scanner);
         TheaterView theaterView = new TheaterView(scanner);
+        GradeView gradeView = new GradeView(scanner);
 
+        theaterView.setMovieView(movieView);
+        movieView.setGradeView(gradeView);
+        userView.setGradeView(gradeView);
         userView.setTheaterView(theaterView);
         userView.setMovieView(movieView);
         userView.showIndex();

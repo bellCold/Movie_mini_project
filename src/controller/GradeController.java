@@ -13,8 +13,16 @@ public class GradeController {
         nextId = 1;
     }
 
-    public void insert(GradeDTO g) {
+    public void register(GradeDTO g) {
         g.setId(nextId++);
         list.add(g);
+    }
+
+    public ArrayList<GradeDTO> selectAll() {
+        ArrayList<GradeDTO> temp = new ArrayList<>();
+        for (GradeDTO g : list) {
+            temp.add(new GradeDTO(g));
+        }
+        return temp;
     }
 }

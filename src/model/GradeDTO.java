@@ -2,10 +2,18 @@ package model;
 
 public class GradeDTO {
     private int id;
-    private int writerId;
-    private int movieNumber;
+    private String writerId;
     private int movieAvgScore;
     private String movieReview;
+    private int expertScore;
+
+    public int getExpertScore() {
+        return expertScore;
+    }
+
+    public void setExpertScore(int expertScore) {
+        this.expertScore = expertScore;
+    }
 
     public int getId() {
         return id;
@@ -15,20 +23,12 @@ public class GradeDTO {
         this.id = id;
     }
 
-    public int getWriterId() {
+    public String getWriterId() {
         return writerId;
     }
 
-    public void setWriterId(int writerId) {
+    public void setWriterId(String writerId) {
         this.writerId = writerId;
-    }
-
-    public int getMovieNumber() {
-        return movieNumber;
-    }
-
-    public void setMovieNumber(int movieNumber) {
-        this.movieNumber = movieNumber;
     }
 
     public int getMovieAvgScore() {
@@ -50,7 +50,6 @@ public class GradeDTO {
     public GradeDTO(GradeDTO origin) {
         this.id = origin.id;
         this.movieAvgScore = origin.movieAvgScore;
-        this.movieNumber = origin.movieNumber;
         this.movieReview = origin.movieReview;
         this.writerId = origin.writerId;
     }
