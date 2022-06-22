@@ -15,6 +15,10 @@ public class MovieView {
     private GradeView gradeView;
     private UserDTO login;
 
+    private final int ADMIN = 1;
+    private final int EXPERT = 2;
+    private final int PUBLIC = 3;
+
     public void setLogin(UserDTO login) {
         this.login = login;
     }
@@ -64,7 +68,6 @@ public class MovieView {
 
     /* 관리자 영화관련 출력*/
     public void adminMovieInfo() {
-        showMovieList();
         int adminChoice = ScannerUtil.nextInt(scanner, "1.영화 리스트보기 2.영화 등록 3.영화 수정 4. 영화 삭제 5.뒤로가기");
         if (adminChoice == 1) {
             showMovieList();
@@ -95,7 +98,12 @@ public class MovieView {
             for (MovieDTO m : list) {
                 System.out.println(m.getId() + ". " + m.getMovieName());
             }
-            allMovieInfo();
+            if (login.getUserGrade() != ADMIN) {
+                allMovieInfo();
+            } else {
+
+            }
+
         }
     }
 

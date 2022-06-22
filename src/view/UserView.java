@@ -15,6 +15,10 @@ public class UserView {
     private TheaterView theaterView;
     private GradeView gradeView;
 
+    private final int ADMIN = 1;
+    private final int EXPERT = 2;
+    private final int PUBLIC = 3;
+
     public UserView(Scanner scanner) {
         this.scanner = scanner;
         userController = new UserController();
@@ -32,21 +36,19 @@ public class UserView {
         this.theaterView = theaterView;
     }
 
-
     public void showIndex() {
         while (true) {
-            int userChoice = ScannerUtil.nextInt(scanner, "1.로그인 2.회원가입 3.종료");
+            int userChoice = ScannerUtil.nextInt(scanner, "1.로그인 2.회원가입 3.종료", 1, 3);
             if (userChoice == 1) {
                 logIn();
                 /*관리자 쇼메뉴*/
-                if (login != null && login.getUserGrade() == 1) {
+                if (login != null && login.getUserGrade() == ADMIN) {
+                    loginStatus();
                     showAdminMenu();
                 }
                 /* 일반인 쇼메뉴 */
                 if (login != null) {
-                    theaterView.setLogin(login);
-                    movieView.setLogin(login);
-                    gradeView.setLogin(login);
+                    loginStatus();
                     showMenu();
                 }
             } else if (userChoice == 2) {
@@ -56,6 +58,11 @@ public class UserView {
                 break;
             }
         }
+    }
+    public void loginStatus() {
+        theaterView.setLogin(login);
+        movieView.setLogin(login);
+        gradeView.setLogin(login);
     }
 
     private void logIn() {
@@ -95,7 +102,7 @@ public class UserView {
 
     private void showMenu() {
         while (login != null) {
-            int userChoice = ScannerUtil.nextInt(scanner, "1.영화정보 2.극장선택 3.로그아웃");
+            int userChoice = ScannerUtil.nextInt(scanner, "1.영화정보 2.극장선택 3.로그아웃", 1, 3);
             if (userChoice == 1) {
                 movieView.showMovieList();
             } else if (userChoice == 2) {
@@ -111,7 +118,7 @@ public class UserView {
     private void showAdminMenu() {
         while (login != null) {
             System.out.println("=====관리자 모드입니다=====");
-            int adminChoice = ScannerUtil.nextInt(scanner, "1.영화 관련메뉴 2.극장관련 메뉴 3.회원정보 메뉴 4.로그아웃");
+            int adminChoice = ScannerUtil.nextInt(scanner, "1.영화 관련메뉴 2.극장관련 메뉴 3.회원정보 메뉴 4.로그아웃", 1, 5);
             if (adminChoice == 1) {
                 movieView.adminMovieInfo();
             } else if (adminChoice == 2) {
@@ -125,16 +132,17 @@ public class UserView {
         }
     }
 
+    /* 회원 등급 수정 */
     private void showUserInfo() {
         ArrayList<UserDTO> list = userController.selectAll();
         System.out.println("-------회원정보 리스트------");
         for (UserDTO u : list) {
             String userGrade = null;
-            if (u.getUserGrade() == 1) {
+            if (u.getUserGrade() == ADMIN) {
                 userGrade = "관리자";
-            } else if (u.getUserGrade() == 2) {
+            } else if (u.getUserGrade() == EXPERT) {
                 userGrade = "전문가";
-            } else if (u.getUserGrade() == 3) {
+            } else if (u.getUserGrade() == PUBLIC) {
                 userGrade = "일반인";
             }
             System.out.printf("%s. 아이디: %s 회원등급: %s \n", u.getId(), u.getUserId(), userGrade);
@@ -147,7 +155,7 @@ public class UserView {
             }
         }
         if (adminChoice == 1) {
-            System.out.println("경고: 마스터 아이디입니다 해당회원은 수정불가");
+            System.out.println("경고: 마스터 아이디입니다 해당정보 수정불가");
         } else if (adminChoice != 0) {
             UserDTO u = userController.selectOne(adminChoice);
             int userGrade = ScannerUtil.nextInt(scanner, "수정할 회원단계 1 => 관리자 2 => 전문가 3 => 일반인", 1, 3);
@@ -156,4 +164,6 @@ public class UserView {
             userController.update(u);
         }
     }
+
+
 }

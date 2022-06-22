@@ -45,11 +45,6 @@ public class TheaterView {
     private void printOne(int id) {
         TheaterDTO t = theaterController.selectOne(id);
         System.out.printf("%d. 극장: %s 극장 장소: %s 극장 전화번호 %s\n", t.getId(), t.getTheaterName(), t.getTheaterLocation(), t.getTheaterNumber());
-        int movieListModify = ScannerUtil.nextInt(scanner, "1.해당극장 상영영화 추가 2.상영영화 삭제 3.뒤로가기");
-        if (movieListModify == 1) {
-            movieView.showMovieList();
-        } else if (movieListModify == 2) {
-        }
     }
 
     public void showTheaterList() {

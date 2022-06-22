@@ -20,6 +20,7 @@ public class MovieMain {
         userView.setGradeView(gradeView);
         userView.setTheaterView(theaterView);
         userView.setMovieView(movieView);
+
         userView.showIndex();
     }
 }

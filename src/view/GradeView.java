@@ -13,6 +13,10 @@ public class GradeView {
     private GradeController gradeController;
     private UserDTO login;
 
+    private final int ADMIN = 1;
+    private final int EXPERT = 2;
+    private final int PUBLIC = 3;
+
     public GradeView(Scanner scanner) {
         this.scanner = scanner;
         gradeController = new GradeController();
@@ -58,7 +62,7 @@ public class GradeView {
         int score = ScannerUtil.nextInt(scanner, "점수를 입력해주세요.1~5점", 1, 5);
         g.setMovieAvgScore(score);
         g.setExpertScore(score);
-        if (login.getUserGrade() == 2) {
+        if (login.getUserGrade() == EXPERT) {
             g.setMovieReview(ScannerUtil.nextLine(scanner, "평론을 남겨주세요"));
         }
         g.setWriterId(login.getUserId());
