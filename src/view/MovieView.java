@@ -1,6 +1,5 @@
 package view;
 
-import controller.GradeController;
 import controller.MovieController;
 import model.MovieDTO;
 import model.UserDTO;
@@ -12,6 +11,7 @@ import java.util.Scanner;
 public class MovieView {
     private Scanner scanner;
     private MovieController movieController;
+    private TimeView timeView;
     private GradeView gradeView;
     private UserDTO login;
 
@@ -26,6 +26,10 @@ public class MovieView {
     public MovieView(Scanner scanner) {
         this.scanner = scanner;
         movieController = new MovieController();
+    }
+
+    public void setTimeView(TimeView timeView) {
+        this.timeView = timeView;
     }
 
     public void setGradeView(GradeView gradeView) {
@@ -83,7 +87,7 @@ public class MovieView {
     private void movieRegister() {
         MovieDTO m = new MovieDTO();
         m.setMovieName(ScannerUtil.nextLine(scanner, "영화제목을 입력해주세요."));
-        m.setMovieGrade(ScannerUtil.nextInt(scanner, "영화등급을 설정해주세요. 1.<전체관람> 2.<15세이상> 3.<청불>",1,3));
+        m.setMovieGrade(ScannerUtil.nextInt(scanner, "영화등급을 설정해주세요. 1.<전체관람> 2.<15세이상> 3.<청불>", 1, 3));
         m.setMovieSummary(ScannerUtil.nextLine(scanner, "영화 줄거리를 입력해주세요."));
         movieController.register(m);
     }
@@ -100,10 +104,20 @@ public class MovieView {
             }
             if (login.getUserGrade() != ADMIN) {
                 allMovieInfo();
-            } else {
-
             }
+            if (login.getUserGrade() == ADMIN) {
+                addMovie();
+            }
+        }
+    }
 
+    private void addMovie() {
+        int adminChoice = ScannerUtil.nextInt(scanner, "추가할 영화번호입력 / 뒤로가기 0");
+        while (movieController.selectOne(adminChoice) == null && adminChoice != 0) {
+            adminChoice = ScannerUtil.nextInt(scanner, "해당 영화가 없습니다. 다시 선택해주세요. / 뒤로가기 0");
+        }
+        if (adminChoice != 0) {
+            timeView.addMovieTime(adminChoice);
         }
     }
 
@@ -116,7 +130,7 @@ public class MovieView {
         if (adminChoice != 0) {
             MovieDTO m = movieController.selectOne(adminChoice);
             m.setMovieName(ScannerUtil.nextLine(scanner, "새로운 영화제목을 입력해주세요."));
-            m.setMovieGrade(ScannerUtil.nextInt(scanner, "새로운 영화등급을 설정해주세요. 1.<전체관람> 2.<15세이상> 3.<청불>",1,3));
+            m.setMovieGrade(ScannerUtil.nextInt(scanner, "새로운 영화등급을 설정해주세요. 1.<전체관람> 2.<15세이상> 3.<청불>", 1, 3));
             m.setMovieSummary(ScannerUtil.nextLine(scanner, "새로운 영화 줄거리를 입력해주세요."));
             System.out.println("수정이 완료되었습니다!");
             movieController.update(m);

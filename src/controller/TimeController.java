@@ -12,4 +12,9 @@ public class TimeController {
         list = new ArrayList<>();
         nextId = 1;
     }
+
+    public void register(TimeDTO t) {
+        t.setId(nextId++);
+        list.add(t);
+    }
 }

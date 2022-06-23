@@ -13,6 +13,10 @@ public class TheaterView {
     private TheaterController theaterController;
     private UserDTO login;
     private MovieView movieView;
+    private final int ADMIN = 1;
+    private final int EXPERT = 2;
+    private final int PUBLIC = 3;
+
 
     public TheaterView(Scanner scanner) {
         this.scanner = scanner;
@@ -45,6 +49,15 @@ public class TheaterView {
     private void printOne(int id) {
         TheaterDTO t = theaterController.selectOne(id);
         System.out.printf("%d. 극장: %s 극장 장소: %s 극장 전화번호 %s\n", t.getId(), t.getTheaterName(), t.getTheaterLocation(), t.getTheaterNumber());
+        if (login.getUserGrade() == ADMIN) {
+            int adminChoice = ScannerUtil.nextInt(scanner, "1.상영 영화,시간 추가하기 2.상영 영화,시간 삭제하기 3.뒤로가기", 1, 3);
+            if (adminChoice == 1) {
+
+//                movieView.showMovieList();
+            } else if (adminChoice == 2) {
+
+            }
+        }
     }
 
     public void showTheaterList() {
@@ -63,7 +76,6 @@ public class TheaterView {
 
     /*관리자 극장 뷰*/
     public void adminTheaterInfo() {
-        showTheaterList();
         int adminChoice = ScannerUtil.nextInt(scanner, "1.현재 등록된 극장보기 2.극장 등록 3.극장 수정 4.극장 삭제 5.뒤로가기");
         if (adminChoice == 1) {
             showTheaterList();

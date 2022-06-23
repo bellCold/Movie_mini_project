@@ -1,9 +1,6 @@
 package main;
 
-import view.GradeView;
-import view.MovieView;
-import view.TheaterView;
-import view.UserView;
+import view.*;
 
 import java.util.Scanner;
 
@@ -14,9 +11,14 @@ public class MovieMain {
         MovieView movieView = new MovieView(scanner);
         TheaterView theaterView = new TheaterView(scanner);
         GradeView gradeView = new GradeView(scanner);
+        TimeView timeView = new TimeView(scanner);
 
         theaterView.setMovieView(movieView);
         movieView.setGradeView(gradeView);
+        movieView.setTimeView(timeView);
+        timeView.setTheaterView(theaterView);
+
+        userView.setTimeView(timeView);
         userView.setGradeView(gradeView);
         userView.setTheaterView(theaterView);
         userView.setMovieView(movieView);

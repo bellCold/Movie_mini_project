@@ -14,6 +14,7 @@ public class UserView {
     private MovieView movieView;
     private TheaterView theaterView;
     private GradeView gradeView;
+    private TimeView timeView;
 
     private final int ADMIN = 1;
     private final int EXPERT = 2;
@@ -22,6 +23,10 @@ public class UserView {
     public UserView(Scanner scanner) {
         this.scanner = scanner;
         userController = new UserController();
+    }
+
+    public void setTimeView(TimeView timeView) {
+        this.timeView = timeView;
     }
 
     public void setGradeView(GradeView gradeView) {
@@ -60,6 +65,7 @@ public class UserView {
         }
     }
     public void loginStatus() {
+        timeView.setLogin(login);
         theaterView.setLogin(login);
         movieView.setLogin(login);
         gradeView.setLogin(login);
